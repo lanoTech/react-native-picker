@@ -41,14 +41,19 @@
     }
     return self;
 }
+#define kToolBarHeight 50
 -(void)makeuiWith:(NSArray *)topbgColor With:(NSArray *)bottombgColor With:(NSArray *)leftbtnbgColor With:(NSArray *)rightbtnbgColor With:(NSArray *)centerbtnColor
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,0, self.frame.size.width, 40)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0,0, self.frame.size.width, kToolBarHeight)];
     view.backgroundColor = [self colorWith:topbgColor];
     [self addSubview:view];
     
+    UIView *sep = [[UIView alloc] initWithFrame:CGRectMake(0,kToolBarHeight-1, self.frame.size.width, 1)];
+    sep.backgroundColor = [self colorWith:@[@216,@216,@216,@1]];
+    [view addSubview:sep];
+    
     self.leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.leftBtn.frame = CGRectMake(0, 0, 90, 40);
+    self.leftBtn.frame = CGRectMake(0, 0, 90, kToolBarHeight);
     self.leftBtn.font = [UIFont fontWithName:_pickerFontFamily size:[_pickerToolBarFontSize integerValue]];
     self.leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.leftBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 10.0, 0, 0)];
@@ -58,7 +63,7 @@
     [view addSubview:self.leftBtn];
     
     self.rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.rightBtn.frame = CGRectMake(view.frame.size.width-90,0, 90, 40);
+    self.rightBtn.frame = CGRectMake(view.frame.size.width-90,0, 90, kToolBarHeight);
     self.rightBtn.font = [UIFont fontWithName:_pickerFontFamily size:[_pickerToolBarFontSize integerValue]];
     self.rightBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
     [self.rightBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10.0)];
@@ -74,7 +79,7 @@
     [cenLabel setTextColor:[self colorWith:centerbtnColor]];
     [view addSubview:cenLabel];
 
-    self.pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, self.frame.size.width, self.frame.size.height - 40)];
+    self.pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, kToolBarHeight, self.frame.size.width, self.frame.size.height - kToolBarHeight)];
     self.pick.delegate = self;
     self.pick.dataSource = self;
     self.pick.showsSelectionIndicator=YES;
