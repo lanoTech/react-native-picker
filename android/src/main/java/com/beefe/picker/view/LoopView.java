@@ -2,6 +2,7 @@ package com.beefe.picker.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -48,6 +49,7 @@ public class LoopView extends View {
     private Paint paintOuterText;
     private Paint paintCenterText;
     private Paint paintIndicator;
+    private Paint paintTopLine;
 
     List<String> items;
 
@@ -136,6 +138,10 @@ public class LoopView extends View {
         paintIndicator.setColor(0xffb8bbc2);
         paintIndicator.setAntiAlias(true);
 
+        paintTopLine = new Paint();
+        paintTopLine.setColor(0xffb8bbc2);
+        paintTopLine.setAntiAlias(true);
+
         if (android.os.Build.VERSION.SDK_INT >= 11) {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
         }
@@ -200,6 +206,8 @@ public class LoopView extends View {
 
     public void setTextColor(int color){
         paintCenterText.setColor(color);
+        paintIndicator.setColor(color);
+        paintIndicator.setAlpha(color & 16777215 | 128 << 24);//alpha 值取半透明
         invalidate();
     }
 
@@ -361,6 +369,7 @@ public class LoopView extends View {
             }
             k1++;
         }
+        canvas.drawLine(0.0F, 0, getWidth(), 0, paintTopLine);
         canvas.drawLine(0.0F, firstLineY, getWidth(), firstLineY, paintIndicator);
         canvas.drawLine(0.0F, secondLineY, getWidth(), secondLineY, paintIndicator);
 
