@@ -9,6 +9,12 @@
 #import "BzwPicker.h"
 #define linSpace 5
 
+@interface BzwPicker ()
+@property(nonatomic,strong)UILabel *oldView;
+@property(nonatomic,strong)UILabel *selectedView;
+
+@end
+
 @implementation BzwPicker
 
 -(instancetype)initWithFrame:(CGRect)frame dic:(NSDictionary *)dic leftStr:(NSString *)leftStr centerStr:(NSString *)centerStr rightStr:(NSString *)rightStr topbgColor:(NSArray *)topbgColor bottombgColor:(NSArray *)bottombgColor leftbtnbgColor:(NSArray *)leftbtnbgColor rightbtnbgColor:(NSArray *)rightbtnbgColor centerbtnColor:(NSArray *)centerbtnColor selectValueArry:(NSArray *)selectValueArry  weightArry:(NSArray *)weightArry
@@ -72,7 +78,7 @@
     [self.rightBtn addTarget:self action:@selector(cfirmAction) forControlEvents:UIControlEventTouchUpInside];  
     [view addSubview:self.rightBtn];
     
-    UILabel *cenLabel=[[UILabel alloc]initWithFrame:CGRectMake(90, 5, SCREEN_WIDTH-180, 30)];
+    UILabel *cenLabel=[[UILabel alloc]initWithFrame:CGRectMake(90, 10, SCREEN_WIDTH-180, 30)];
     cenLabel.text=self.centStr;
     cenLabel.textAlignment=NSTextAlignmentCenter;
     cenLabel.font = [UIFont fontWithName:_pickerFontFamily size:[_pickerToolBarFontSize integerValue]];
@@ -947,16 +953,25 @@
     if (lbl == nil) {
         lbl = [[UILabel alloc]init];
         lbl.font = [UIFont fontWithName:_pickerFontFamily size:[_pickerFontSize integerValue]];
-        lbl.textColor = [self colorWith:_pickerFontColor];
+        lbl.textColor = [UIColor colorWithWhite:51/255 alpha:1];
         lbl.textAlignment = UITextAlignmentCenter;
     }
     
     //重新加载lbl的文字内容
     lbl.text = [self pickerView:pickerView titleForRow:row forComponent:component];
+    if (self.oldView != nil)
+        self.oldView.textColor = [UIColor colorWithWhite:51/255 alpha:1];
+    UILabel *labelSelected = (UILabel*)[pickerView viewForRow:row forComponent:component];
+    [labelSelected setTextColor:[self colorWith:self.pickerFontColor]];
     
+            self.selectedView.textColor = [self colorWith:self.pickerFontColor];
+            [self.selectedView setNeedsDisplay];
+            self.oldView = self.selectedView;
     return lbl;
     
 }
+
+
 
 - (BOOL)anySubViewScrolling:(UIView *)view{
     if ([view isKindOfClass:[UIScrollView class]]) {
